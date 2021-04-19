@@ -1,10 +1,9 @@
 #!/bin/bash
 progDir='/home/jacobhampton/Prog06/Prog06/'
 exeDir="${progDir}Executable"
-#echo `mkdir ${exeDir}`
-if [[-d "$exeDir"]];
+if [[ ! -d "$exeDir" ]]
 then
-    echo worked
+    echo `mkdir ${exeDir}`
 fi
 #vr=$1
 #count=0
@@ -13,10 +12,10 @@ do
     verDir="${progDir}Version$i"
     for file in $verDir/*.cpp
     do
-        echo $file
-        ##f="${file##*/}"
-        ##ex="${f%.cpp}"
-        ##g++ -std=c++14 -Wall $file -lstdc++ -lpthread -o $ex
+        f="${file##*/}"
+        ex="${f%.cpp}"
+        g++ -std=c++14 -Wall $file -lstdc++ -lpthread -o $ex
+        mv $ex "$exeDir"
     done
     ##mv $ex "${progDir%/*}"
     ##if (($count == $vr)); then
