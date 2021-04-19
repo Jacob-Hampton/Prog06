@@ -5,6 +5,7 @@ if [[ ! -d "$exeDir" ]]
 then
     echo `mkdir ${exeDir}`
 fi
+vr=$1
 for i in 1 2 3
 do
     verDir="${progDir}Version$i"
@@ -25,10 +26,9 @@ do
         fi
     done
     g++ -std=c++14 -Wall $final -lstdc++ -lpthread -o $ex *.o
+    if (($i == $vr)); then
+        ./$ex "/home/jacobhampton/Prog06/Prog06/Data/testNode.txt"
+    fi 
     mv $ex "$exeDir"
     rm -f *.o
-    ##mv $ex "${progDir%/*}"
-    ##if (($count == $vr)); then
-    ##    ./$ex "/home/jacobhampton/Prog05/Data/smallMap_Horiz.map" "sajhbd" 1 1 1
-    ##fi 
 done

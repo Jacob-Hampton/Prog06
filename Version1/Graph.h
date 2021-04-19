@@ -27,7 +27,8 @@ private:
     bool connectionExists(Node node1, string name2);
 public:
     vector<Node> nodes;
-    Graph();
+    string gName;
+    Graph(string name);
     string addNode(string name);
     string addEdge(string name1,string name2,int cost);
 };

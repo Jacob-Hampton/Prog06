@@ -1,7 +1,7 @@
 #include "Graph.h"
 
-Graph::Graph(){
-    
+Graph::Graph(string name){
+    gName = name;
 }
 
 string Graph::addNode(string name){
