@@ -42,7 +42,7 @@ bool Graph::nodeExists(string name){
 }
 
 bool Graph::connectionExists(Node node1,string name2){
-    for(int i=0; i< node1.connections.size(); i++){
+    for(unsigned int i=0; i< node1.connections.size(); i++){
         if(node1.connections.at(i).node->name.compare(name2)==0){
             return true;
         }

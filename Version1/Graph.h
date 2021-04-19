@@ -1,5 +1,5 @@
 #ifndef GRAPH_H
-#endif GRAPH_H
+#define GRAPH_H
 
 #include <string>
 #include <vector>
@@ -31,3 +31,5 @@ public:
     string addNode(string name);
     string addEdge(string name1,string name2,int cost);
 };
+
+#endif

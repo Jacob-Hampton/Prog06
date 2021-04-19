@@ -13,25 +13,6 @@
 #include <stdlib.h>
 using namespace std;
 
-typedef struct Node;
-
-typedef struct Connection{
-    Node* node;
-    int cost;
-}Connection;
-
-typedef struct Node{
-    string name;
-    int degree;
-    vector<Connection> neighbors;
-    vector<Connection> connections;
-}Node;
-
-typedef struct Graph{
-    string name;
-    vector<Node> nodes;
-}Graph;
-
 int main(int argc,const char* argv[]){
     if(argc != 2){
         cout << "usage: ./version1 <filePath>";
