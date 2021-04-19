@@ -23,7 +23,8 @@ private:
     int numOfNodes;
     bool nodeExists(string name);
     int getNode(string name);
-    void addConnection(Node node1, Node node2, int cost);
+    Connection createConnection(Node otherNode, int cost);
+    void addNeighbor(Node node1, Node node2, int cost);
     bool connectionExists(Node node1, string name2);
 public:
     vector<Node> nodes;
@@ -31,6 +32,7 @@ public:
     Graph(string name);
     string addNode(string name);
     string addEdge(string name1,string name2,int cost);
+    string getDegree(string name);
 };
 
 #endif

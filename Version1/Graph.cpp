@@ -26,9 +26,17 @@ string Graph::addEdge(string name1,string name2,int cost){
         if(connectionExists(node1,name2)){
             return "ERROR3";
         }else{
-            addConnection(node1,nodes.at(index2),cost);
+            addNeighbor(node1,nodes.at(index2),cost);
             return "OK";
         }
+    }
+}
+
+string Graph::getDegree(string name){
+    if(!nodeExists(name)){
+        return "ERROR2";
+    }else{
+        return (nodes.at(getNode(name)).degree + "OK");
     }
 }
 
@@ -50,6 +58,13 @@ bool Graph::connectionExists(Node node1,string name2){
     return false;
 }
 
+void Graph::addNeighbor(Node node1, Node node2, int cost){
+    node1.neighbors.push_back(createConnection(node2,cost));
+    node2.neighbors.push_back(createConnection(node1,cost));
+    node1.degree++;
+    node2.degree++;
+};
+
 int Graph::getNode(string name){
     for(int i=0; i< numOfNodes;i++){
         if(nodes.at(i).name.compare(name)==0){
@@ -59,13 +74,9 @@ int Graph::getNode(string name){
     return -1;  //This will be never touched
 }
 
-void Graph::addConnection(Node node1, Node node2, int cost){
-    Connection conFor1;
-    conFor1.node = &node2;
-    conFor1.cost = cost;
-    Connection conFor2;
-    conFor2.node = &node1;
-    conFor2.cost = cost;
-    node1.connections.push_back(conFor1);
-    node2.connections.push_back(conFor2);
+Graph::Connection Graph::createConnection(Node otherNode, int cost){
+    Connection connect;
+    connect.node = &otherNode;
+    connect.cost = cost;
+    return connect;
 }

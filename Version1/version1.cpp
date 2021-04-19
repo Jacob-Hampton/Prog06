@@ -32,6 +32,20 @@ int main(int argc,const char* argv[]){
             fileRead >> name;
             out = graph.addNode(name);
             cout << out << endl;
+        }else if(cmd.compare("EDGE") == 0){
+            string node1,node2,out;
+            int cost;
+            fileRead >> node1 >> node2 >> cost;
+            out = graph.addEdge(node1,node2,cost);
+            cout << out << endl;
+        }else if(cmd.compare("DEGREE")==0){
+            string name,out;
+            fileRead >> name;
+            out = graph.getDegree(name);
+            cout << out << endl;
+        }
+        else{
+            cout << "INVALID COMMAND" << endl;
         }
     }
     
