@@ -26,6 +26,7 @@ private:
     Connection createConnection(Node otherNode, int cost);
     void addNeighbor(Node node1, Node node2, int cost);
     bool connectionExists(Node node1, string name2);
+    Connection getConnection(Node node1, string name2);
 public:
     vector<Node> nodes;
     string gName;
@@ -33,6 +34,7 @@ public:
     string addNode(string name);
     string addEdge(string name1,string name2,int cost);
     string getDegree(string name);
+    string getCost(string name1, string name2);
 };
 
 #endif

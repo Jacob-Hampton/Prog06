@@ -18,7 +18,7 @@ string Graph::addNode(string name){
 }
 
 string Graph::addEdge(string name1,string name2,int cost){
-    if(!nodeExists(name1) && !nodeExists(name2)){
+    if(!nodeExists(name1) || !nodeExists(name2)){
         return "ERROR2";
     }else{
         Node node1 = nodes.at(getNode(name1));
@@ -40,6 +40,18 @@ string Graph::getDegree(string name){
     }
 }
 
+string Graph::getCost(string name1, string name2){
+    if(!nodeExists(name1) || !nodeExists(name2)){
+        return "ERROR2";
+    }else if(!connectionExists(nodes.at(getNode(name1)),name2))
+    {
+        return "ERROR4";
+    }else{
+        int cost = getConnection(nodes.at(getNode(name1)),name2).cost;
+        return (cost + "OK");
+    }
+}
+
 bool Graph::nodeExists(string name){
     for(int i=0; i< numOfNodes;i++){
         if(nodes.at(i).name.compare(name)==0){
@@ -52,6 +64,11 @@ bool Graph::nodeExists(string name){
 bool Graph::connectionExists(Node node1,string name2){
     for(unsigned int i=0; i< node1.connections.size(); i++){
         if(node1.connections.at(i).node->name.compare(name2)==0){
+            return true;
+        }
+    }
+    for(unsigned int i=0; i< node1.neighbors.size(); i++){
+        if(node1.neighbors.at(i).node->name.compare(name2)==0){
             return true;
         }
     }
@@ -72,6 +89,21 @@ int Graph::getNode(string name){
         }
     }
     return -1;  //This will be never touched
+}
+
+Graph::Connection Graph::getConnection(Node node1, string name2){
+    for(unsigned int i=0; i< node1.connections.size(); i++){
+        if(node1.connections.at(i).node->name.compare(name2)==0){
+            return node1.connections.at(i);
+        }
+    }
+    for(unsigned int i=0; i< node1.neighbors.size(); i++){
+        if(node1.neighbors.at(i).node->name.compare(name2)==0){
+            return node1.neighbors.at(i);
+        }
+    }
+    Connection con;
+    return con;         //this will never be touched
 }
 
 Graph::Connection Graph::createConnection(Node otherNode, int cost){

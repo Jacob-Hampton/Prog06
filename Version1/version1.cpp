@@ -43,6 +43,11 @@ int main(int argc,const char* argv[]){
             fileRead >> name;
             out = graph.getDegree(name);
             cout << out << endl;
+        }else if(cmd.compare("COST")==0){
+            string name1,name2,out;
+            fileRead >> name1 >> name2;
+            out = graph.getCost(name1,name2);
+            cout << out << endl;
         }
         else{
             cout << "INVALID COMMAND" << endl;
