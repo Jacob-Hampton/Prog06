@@ -1,4 +1,5 @@
 #!/bin/bash
+
 set -e
 progDir='/home/jacobhampton/Prog06/Prog06/'
 exeDir="${progDir}Executable"
