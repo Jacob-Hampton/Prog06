@@ -1,12 +1,11 @@
 #!/bin/bash
+
 progDir='/home/jacobhampton/Prog06/Prog06/'
 exeDir="${progDir}Executable"
 if [[ ! -d "$exeDir" ]]
 then
     echo `mkdir ${exeDir}`
 fi
-#vr=$1
-#count=0
 for i in 1 2 3
 do
     verDir="${progDir}Version$i"
