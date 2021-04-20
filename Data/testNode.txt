@@ -4,3 +4,10 @@ NODE noodle2
 EDGE noodle noodle2 5
 DEGREE noodle2
 COST noodle noodle2
+NODE noodle
+EDGE noodle noodle2 5
+EDGE noodle noodle3 5
+DEGREE noodle3
+COST noodle noodle3
+NODE noodle3
+COST noodle noodle3
