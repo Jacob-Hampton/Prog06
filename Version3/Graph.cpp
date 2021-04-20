@@ -1,5 +1,5 @@
 #include "Graph.h"
-#include <iostream>
+
 Graph::Graph(string name){
     gName = name;
 }
@@ -61,7 +61,7 @@ string Graph::getDegree(string name){
     if(nodeIdx == NOT_EXIST){
         return "ERROR2";
     }else{
-        return (to_string(nodes.at(nodeIdx).degree) + " OK");
+        return (to_string(nodes.at(nodeIdx).degree) + "OK");
     }
 }
 
@@ -83,7 +83,8 @@ string Graph::getCost(string name1, string name2){
         }else{
             cost = nodes.at(nodeIdx1).connections.at(conIndex).cost;
         }
-        return (to_string(cost)+" OK");
+        string out = "OK";
+        return out.append(to_string(cost));
     }
 }
 
@@ -100,7 +101,7 @@ int Graph::getNodeIndex(string name){
 int Graph::getNeigborIndex(Node node1, string name2){
     for(unsigned int i=0; i< node1.neighbors.size(); i++){
         if(node1.neighbors.at(i).node->name.compare(name2)==0){
-            return i;
+            return node1.neighbors.at(i).cost;
         }
     }
     return -1;
