@@ -5,6 +5,7 @@
 #include <vector>
 
 using namespace std;
+const int NOT_EXIST = -1;
 
 class Graph
 {
@@ -22,11 +23,13 @@ private:
     };
     int numOfNodes;
     bool nodeExists(string name);
-    int getNode(string name);
-    Connection createConnection(Node otherNode, int cost);
-    void addNeighbor(Node node1, Node node2, int cost);
+    int getNodeIndex(string name);
+    Connection createConnection(Node* otherNode, int cost);
+    void addNeighbor(int nodeIdx1, int nodeIdx2, int cost);
     bool connectionExists(Node node1, string name2);
     Connection getConnection(Node node1, string name2);
+    int getNeigborIndex(Node node1, string name2);
+    int getConnectionIndex(Node node1, string name2);
 public:
     vector<Node> nodes;
     string gName;

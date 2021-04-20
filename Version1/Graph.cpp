@@ -3,7 +3,7 @@
 Graph::Graph(string name){
     gName = name;
 }
-
+//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 string Graph::addNode(string name){
     if(nodeExists(name)){
         return "ERROR1";
@@ -18,97 +18,99 @@ string Graph::addNode(string name){
 }
 
 string Graph::addEdge(string name1,string name2,int cost){
-    if(!nodeExists(name1) || !nodeExists(name2)){
+    int nodeIdx1 = getNodeIndex(name1);
+    int nodeIdx2 = getNodeIndex(name2);
+    if( nodeIdx1 == NOT_EXIST || nodeIdx2 == NOT_EXIST ){
         return "ERROR2";
     }else{
-        Node node1 = nodes.at(getNode(name1));
-        int index2 = getNode(name2);
-        if(connectionExists(node1,name2)){
+        if(getNeigborIndex(nodes.at(nodeIdx1),name2) != NOT_EXIST ){
             return "ERROR3";
         }else{
-            addNeighbor(node1,nodes.at(index2),cost);
+            int conIndx = getConnectionIndex(nodes.at(nodeIdx1),name2);
+            if(conIndx != NOT_EXIST){
+                nodes.at(nodeIdx1).connections.erase(nodes.at(nodeIdx1).connections.begin()+conIndx);
+            }
+            addNeighbor(nodeIdx1,nodeIdx2,cost);
             return "OK";
         }
     }
 }
 
+Graph::Connection Graph::createConnection(Node* otherNode, int cost){
+    Connection connect;
+    connect.node = otherNode;
+    connect.cost = cost;
+    return connect;
+}
+
+void Graph::addNeighbor(int nodeIdx1, int nodeIdx2, int cost){
+    nodes.at(nodeIdx1).neighbors.push_back(createConnection(&nodes.at(nodeIdx2),cost));
+    nodes.at(nodeIdx2).neighbors.push_back(createConnection(&nodes.at(nodeIdx1),cost));
+    nodes.at(nodeIdx2).degree++;
+    nodes.at(nodeIdx1).degree++;
+};
+
+//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+
+
+//<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 string Graph::getDegree(string name){
     if(!nodeExists(name)){
         return "ERROR2";
     }else{
-        return (nodes.at(getNode(name)).degree + "OK");
+        return (nodes.at(getNodeIndex(name)).degree + "OK");
     }
 }
 
 string Graph::getCost(string name1, string name2){
-    if(!nodeExists(name1) || !nodeExists(name2)){
+    int nodeIdx1 = getNodeIndex(name1);
+    int nodeIdx2 = getNodeIndex(name2);
+    if( nodeIdx1 == -1 || nodeIdx2 == -1 ){
         return "ERROR2";
-    }else if(!connectionExists(nodes.at(getNode(name1)),name2))
-    {
-        return "ERROR4";
     }else{
-        int cost = getConnection(nodes.at(getNode(name1)),name2).cost;
-        return (cost + "OK");
+        int conIndex = getConnectionIndex(nodes.at(nodeIdx1),name2);
+        int cost;
+        if(conIndex == NOT_EXIST){
+            conIndex = getNeigborIndex(nodes.at(nodeIdx1),name2);
+            if(conIndex == NOT_EXIST){
+                return "ERROR4";
+            }else{
+                cost = nodes.at(nodeIdx1).neighbors.at(conIndex).cost;
+            }
+        }else{
+            cost = nodes.at(nodeIdx1).connections.at(conIndex).cost;
+        }
+        string out = "OK";
+        return out.append(to_string(cost));
     }
 }
 
-bool Graph::nodeExists(string name){
-    for(int i=0; i< numOfNodes;i++){
-        if(nodes.at(i).name.compare(name)==0){
-            return true;
-        }
-    }
-    return false;
-}
-
-bool Graph::connectionExists(Node node1,string name2){
-    for(unsigned int i=0; i< node1.connections.size(); i++){
-        if(node1.connections.at(i).node->name.compare(name2)==0){
-            return true;
-        }
-    }
-    for(unsigned int i=0; i< node1.neighbors.size(); i++){
-        if(node1.neighbors.at(i).node->name.compare(name2)==0){
-            return true;
-        }
-    }
-    return false;
-}
-
-void Graph::addNeighbor(Node node1, Node node2, int cost){
-    node1.neighbors.push_back(createConnection(node2,cost));
-    node2.neighbors.push_back(createConnection(node1,cost));
-    node1.degree++;
-    node2.degree++;
-};
-
-int Graph::getNode(string name){
+int Graph::getNodeIndex(string name){
     for(int i=0; i< numOfNodes;i++){
         if(nodes.at(i).name.compare(name)==0){
             return i;
         }
     }
-    return -1;  //This will be never touched
+    return -1;
 }
 
-Graph::Connection Graph::getConnection(Node node1, string name2){
-    for(unsigned int i=0; i< node1.connections.size(); i++){
-        if(node1.connections.at(i).node->name.compare(name2)==0){
-            return node1.connections.at(i);
-        }
-    }
+
+int Graph::getNeigborIndex(Node node1, string name2){
     for(unsigned int i=0; i< node1.neighbors.size(); i++){
         if(node1.neighbors.at(i).node->name.compare(name2)==0){
-            return node1.neighbors.at(i);
+            return node1.neighbors.at(i).cost;
         }
     }
-    Connection con;
-    return con;         //this will never be touched
+    return -1;
+}
+int Graph::getConnectionIndex(Node node1, string name2){
+    for(unsigned int i=0; i< node1.connections.size(); i++){
+        if(node1.connections.at(i).node->name.compare(name2)==0){
+            return i;
+        }
+    }
+    return -1;
 }
 
-Graph::Connection Graph::createConnection(Node otherNode, int cost){
-    Connection connect;
-    connect.node = &otherNode;
-    connect.cost = cost;
-    return connect;
-}
+//<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
