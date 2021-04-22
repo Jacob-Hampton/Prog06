@@ -20,6 +20,7 @@ private:
         int degree;
         vector<Connection> neighbors;
         vector<Connection> connections;
+        int index;
     };
     int numOfNodes;
     int getNodeIndex(string name);
@@ -27,6 +28,8 @@ private:
     void addNeighbor(int nodeIdx1, int nodeIdx2, int cost);
     int getNeigborIndex(Node node1, string name2);
     int getConnectionIndex(Node node1, string name2);
+    void addConnection(int nodeIdx1, int nodeIdx2, int cost);
+    int findConnections(int newNodeIdx,int neighborIdx,int cost);
 public:
     vector<Node> nodes;
     string gName;
