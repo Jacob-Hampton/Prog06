@@ -122,12 +122,29 @@ int Graph::getConnectionIndex(Node node1, string name2){
 }
 
 int Graph::findConnections(int newNodeIdx,int neighborIdx,int cost){
+    Node newNode = nodes.at(newNodeIdx);
     for(int i =0;i< nodes.at(neighborIdx).connections.size();i++){
-        Node conFound = odes.at(neighborIdx).connections.at(i).node;
+        Node conFound = *nodes.at(neighborIdx).connections.at(i).node;
         int distToNeigbor = nodes.at(neighborIdx).connections.at(i).cost;
-        int conIdx = getConnectionIndex(nodes.at(newNodeIdx),nodes.at(neighborIdx).connections.at(i).node->name);
+        int conIdx = getConnectionIndex(newNode,conFound.name);
         if(conIdx == NOT_EXIST){
-            addConnection( newNodeIdx , nodes.at(neighborIdx).connections.at(i).node->index ,( cost + distToNeigbor ));
+            addConnection( newNodeIdx , conFound.index ,( cost + distToNeigbor ));
+        }else{
+            if(newNode.connections.at(conIdx).cost > cost + distToNeigbor){
+                nodes.at(newNodeIdx).connections.at(conIdx).cost = cost + distToNeigbor;
+            }
+        }
+    }
+    for(int i =0;i< nodes.at(neighborIdx).neighbors.size();i++){
+        Node conFound = *nodes.at(neighborIdx).neighbors.at(i).node;
+        int distToNeigbor = nodes.at(neighborIdx).neighbors.at(i).cost;
+        int conIdx = getConnectionIndex(newNode,conFound.name);
+        if(conIdx == NOT_EXIST){
+            addConnection( newNodeIdx , conFound.index ,( cost + distToNeigbor ));
+        }else{
+            if(newNode.connections.at(conIdx).cost > cost + distToNeigbor){
+                nodes.at(newNodeIdx).connections.at(conIdx).cost = cost + distToNeigbor;
+            }
         }
     }
 }
